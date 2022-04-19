@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* comment */
+/* This is a sample comment. */
 
 // Function: main
 int main(void){

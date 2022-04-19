@@ -145,7 +145,7 @@ int main() {_
             cout<<"macro: "<<word<<endl;
         }
 
-        // beggining of a string
+        // beginning of a string
         else if(ch == '"'){
             ch = fgetc(fd);
             // until the end of the string
@@ -173,9 +173,8 @@ int main() {_
             }
             else if(ch == '*'){
                 ch = fgetc(fd);
-                array[i] = ch;
-                i++;
                 while(ch!='*' && ch!=EOF){
+                    // cout<<ch<<"\n";
                     array[i] = ch;
                     i++;
                     ch = fgetc(fd);
