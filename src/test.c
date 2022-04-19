@@ -2,9 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* This is a sample comment. */
+/* comment */
 
 // Function: main
+
+/*
+
+next line comments
+
+*/
+
+
 int main(void){
     printf("Hello World!\n");
     return 0;

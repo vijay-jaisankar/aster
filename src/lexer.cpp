@@ -93,7 +93,22 @@ pair<ll, ll> fib (ll n) {
         return {c, d};
 }
 
+// array of keywords
+const char* keywords[32] ={
+    "auto", "break", "case", "char", "const", "continue", 
+    "default", "do", "double", "else", "enum", "extern", 
+    "float", "for", "goto", "if", "int", "long", "register", "return", 
+    "short", "signed", "sizeof", "static", "struct", "switch", 
+    "typedef", "union", "unsigned", "void", "volatile", "while"
+};
 
+// array of operators
+const char* operators[41] = {
+    "!", "&", "~", "^", "*", "/", "%", "+", "-", "<", ">", "=", 
+    "|", "?", ":", ";", ",", ".", "[", "]", "(", ")", "{", "}" 
+    "->", "++", "--", "<<", ">>", "<=", ">=", "==", "!=", "&&",
+    "||", "+=", "-=", "*=", "/=", "%=", "&=", "^="
+};
 
 int main() {_
 
@@ -103,7 +118,7 @@ int main() {_
     char ch;
     char array[100];
     char * word;
-    int i = 0;
+    int i = 0, k = 0;
 
     printf("Enter the path of the c file to be read: ");
     scanf("%s", path);
@@ -119,7 +134,6 @@ int main() {_
     ch = fgetc(fd);
     while(ch!=EOF) {
         i = 0;
-
         if((ch>='A' && ch<='Z') || (ch>='a' && ch<='z') || ch=='_'){
             while( (ch>='A' && ch<='Z') || (ch>='a' && ch<='z') || (ch>'0' && ch<'9') || ch=='_' ){
                 array[i] = ch;
@@ -129,7 +143,19 @@ int main() {_
             word = new char[i+1];
             for(int j=0;j<i;j++)  word[j] = array[j];
             word[i] = '\0';
-            cout<<"word: "<<word<<endl;
+
+            for(k = 0; k < 32; k++) {
+                if(strcmp(word, keywords[k]) == 0) {
+                    cout<<"Keyword: "<<word<<endl;
+                    break;
+                }
+            }
+
+            if(k == 32) {
+                cout<<"Identifier: "<<word<<endl;
+            }
+
+            // cout<<"word: "<<word<<endl;
         }
 
         // macros are handled here
@@ -145,7 +171,7 @@ int main() {_
             cout<<"macro: "<<word<<endl;
         }
 
-        // beginning of a string
+        // beggining of a string
         else if(ch == '"'){
             ch = fgetc(fd);
             // until the end of the string
@@ -173,8 +199,9 @@ int main() {_
             }
             else if(ch == '*'){
                 ch = fgetc(fd);
+                array[i] = ch;
+                i++;
                 while(ch!='*' && ch!=EOF){
-                    // cout<<ch<<"\n";
                     array[i] = ch;
                     i++;
                     ch = fgetc(fd);
@@ -189,6 +216,25 @@ int main() {_
             word[i] = '\0';
             cout<<"comment: "<<word<<endl;
         }
+
+        // check for numbers
+        else if(ch>='0' && ch<='9'){
+            while(ch>='0' && ch<='9'){
+                array[i] = ch;
+                i++;
+                ch = fgetc(fd);
+                if( (ch>='a' && ch<='z') || (ch>='A' && ch<='Z') || ch=='_' ){
+                    // error handling
+                    cout<<"Error: Invalid number"<<endl;
+                    return 1;
+                }
+            }
+            word = new char[i+1];
+            for(int j=0;j<i;j++)  word[j] = array[j];
+            word[i] = '\0';
+            cout<<"number: "<<word<<endl;
+        }
+
 
         ch = fgetc(fd);
     }
