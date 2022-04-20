@@ -134,6 +134,10 @@ int main() {_
     ch = fgetc(fd);
     while(ch!=EOF) {
         i = 0;
+        for(auto &c: array) {
+            c = '\0';
+        }
+
         if((ch>='A' && ch<='Z') || (ch>='a' && ch<='z') || ch=='_'){
             while( (ch>='A' && ch<='Z') || (ch>='a' && ch<='z') || (ch>'0' && ch<'9') || ch=='_' ){
                 array[i] = ch;
@@ -150,16 +154,16 @@ int main() {_
                     break;
                 }
             }
-
             if(k == 32) {
                 cout<<"Identifier: "<<word<<endl;
             }
-
-            // cout<<"word: "<<word<<endl;
         }
 
         // macros are handled here
-        else if(ch=='#'){
+        if(ch=='#'){
+            i=0;
+            for(auto &c: array) c = '\0';
+
             while(ch!='\n' && ch!=EOF){
                 array[i] = ch;
                 i++;
@@ -172,7 +176,10 @@ int main() {_
         }
 
         // beggining of a string
-        else if(ch == '"'){
+        if(ch == '"'){
+            i=0;
+            for(auto &c: array) c = '\0';
+
             ch = fgetc(fd);
             // until the end of the string
             while(ch!='"' && ch!=EOF){
@@ -186,8 +193,10 @@ int main() {_
             cout<<"string: "<<word<<endl;
         }
 
-        // check for comments
-        else if( ch == '/' ){
+        if( ch == '/' ){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
             ch = fgetc(fd);
             if(ch == '/'){
                 ch = fgetc(fd);
@@ -196,6 +205,10 @@ int main() {_
                     i++;
                     ch = fgetc(fd);
                 }
+                word = new char[i+1];
+                for(int j=0;j<i;j++)  word[j] = array[j];
+                word[i] = '\0';
+                cout<<"comment: "<<word<<endl;
             }
             else if(ch == '*'){
                 ch = fgetc(fd);
@@ -210,15 +223,26 @@ int main() {_
                 while(ch!='/' && ch!=EOF){
                     ch = fgetc(fd);
                 }
+                word = new char[i+1];
+                for(int j=0;j<i;j++)  word[j] = array[j];
+                word[i] = '\0';
+                cout<<"comment: "<<word<<endl;
             }
-            word = new char[i+1];
-            for(int j=0;j<i;j++)  word[j] = array[j];
-            word[i] = '\0';
-            cout<<"comment: "<<word<<endl;
+            // handle "/=" operator 
+            else if(ch == '='){
+                cout<<"Operator: /="<<endl;
+            }
+            else{
+                cout<<"Operator: /"<<endl;
+                // move the pointer one step back
+            }
         }
 
         // check for numbers
-        else if(ch>='0' && ch<='9'){
+        if(ch>='0' && ch<='9'){
+            i=0;
+            for(auto &c: array) c = '\0';
+
             while(ch>='0' && ch<='9'){
                 array[i] = ch;
                 i++;
@@ -235,6 +259,77 @@ int main() {_
             cout<<"number: "<<word<<endl;
         }
 
+        if(ch == '+'){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
+            ch = fgetc(fd);
+            if(ch == '+'){
+                cout<<"Operator: ++"<<endl;
+            }
+            else if(ch == '='){
+                cout<<"Operator: +="<<endl;
+            }
+            else{
+                cout<<"Operator: +"<<endl;
+                // move the pointer one step back
+                fseek(fd, -1, SEEK_CUR);
+            }
+        }
+
+        if(ch == '-'){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
+            ch = fgetc(fd);
+            if(ch == '-'){
+                cout<<"Operator: --"<<endl;
+            }
+            else if(ch == '='){
+                cout<<"Operator: -="<<endl;
+            }
+            else{
+                cout<<"Operator: -"<<endl;
+                // move the pointer one step back
+                fseek(fd, -1, SEEK_CUR);
+            }
+        }
+
+        if(ch == '*'){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
+            ch = fgetc(fd);
+            if(ch == '='){
+                cout<<"Operator: *="<<endl;
+            }
+            else{
+                cout<<"Operator: *"<<endl;
+                // move the pointer one step back
+                fseek(fd, -1, SEEK_CUR);
+            }
+        }
+
+        if(ch == '(' || ch == ')' || ch == '{' || ch == '}'){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
+            cout<<"Brackets: "<< ch <<endl;
+        }
+
+        if(ch == '='){
+            i =0;
+            for(auto &c: array) c = '\0';
+
+            cout<<"Operator: ="<<endl;
+        }
+
+        if(ch == ';'){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
+            cout<<"Delimiter: ;"<<endl;
+        }
 
         ch = fgetc(fd);
     }
