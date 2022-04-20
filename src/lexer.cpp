@@ -310,18 +310,158 @@ int main() {_
             }
         }
 
+        if(ch == '='){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
+            ch = fgetc(fd);
+            if(ch == '='){
+                cout<<"Operator: =="<<endl;
+            }
+            else{
+                cout<<"Operator: ="<<endl;
+                // move the pointer one step back
+                fseek(fd, -1, SEEK_CUR);
+            }
+        }
+
+        if(ch == '^'){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
+            ch = fgetc(fd);
+            if(ch == '='){
+                cout<<"Operator: ^="<<endl;
+            }
+            else{
+                cout<<"Operator: ^"<<endl;
+                // move the pointer one step back
+                fseek(fd, -1, SEEK_CUR);
+            }
+        }
+
+        if( ch == '%'){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
+            ch = fgetc(fd);
+            if(ch == '='){
+                cout<<"Operator: %="<<endl;
+            }
+            else{
+                cout<<"Operator: %"<<endl;
+                // move the pointer one step back
+                fseek(fd, -1, SEEK_CUR);
+            }
+        }
+
+        if( ch == '&'){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
+            ch = fgetc(fd);
+            if(ch == '&'){
+                cout<<"Operator: &&"<<endl;
+            }
+            else if(ch == '='){
+                cout<<"Operator: &="<<endl;
+            }
+            else{
+                cout<<"Operator: &"<<endl;
+                // move the pointer one step back
+                fseek(fd, -1, SEEK_CUR);
+            }
+        }
+
+        if( ch == '|'){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
+            ch = fgetc(fd);
+            if(ch == '|'){
+                cout<<"Operator: ||"<<endl;
+            }
+            else if(ch == '='){
+                cout<<"Operator: |="<<endl;
+            }
+            else{
+                cout<<"Operator: |"<<endl;
+                // move the pointer one step back
+                fseek(fd, -1, SEEK_CUR);
+            }
+        }
+
+        if( ch == '>'){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
+            ch = fgetc(fd);
+            if(ch == '>'){
+                cout<<"Operator: >>"<<endl;
+            }
+            else if(ch == '='){
+                cout<<"Operator: >="<<endl;
+            }
+            else{
+                cout<<"Operator: >"<<endl;
+                // move the pointer one step back
+                fseek(fd, -1, SEEK_CUR);
+            }
+        }
+
+        if( ch == '<'){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
+            ch = fgetc(fd);
+            if(ch == '<'){
+                cout<<"Operator: <<"<<endl;
+            }
+            else if(ch == '='){
+                cout<<"Operator: <="<<endl;
+            }
+            else{
+                cout<<"Operator: <"<<endl;
+                // move the pointer one step back
+                fseek(fd, -1, SEEK_CUR);
+            }
+        }
+
+        if( ch == '!'){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
+            ch = fgetc(fd);
+            if(ch == '='){
+                cout<<"Operator: !="<<endl;
+            }
+            else{
+                cout<<"Operator: !"<<endl;
+                // move the pointer one step back
+                fseek(fd, -1, SEEK_CUR);
+            }
+        }
+
+        if( ch == '~'){
+            i = 0;
+            for(auto &c: array) c = '\0';
+
+            ch = fgetc(fd);
+            if(ch == '='){
+                cout<<"Operator: ~="<<endl;
+            }
+            else{
+                cout<<"Operator: ~"<<endl;
+                // move the pointer one step back
+                fseek(fd, -1, SEEK_CUR);
+            }
+        }
+
         if(ch == '(' || ch == ')' || ch == '{' || ch == '}'){
             i = 0;
             for(auto &c: array) c = '\0';
 
             cout<<"Brackets: "<< ch <<endl;
-        }
-
-        if(ch == '='){
-            i =0;
-            for(auto &c: array) c = '\0';
-
-            cout<<"Operator: ="<<endl;
         }
 
         if(ch == ';'){
