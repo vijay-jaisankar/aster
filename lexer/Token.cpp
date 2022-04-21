@@ -7,6 +7,7 @@
 #include "Operators.h"
 #include "Helpers.h"
 
+// Constructor
 Token::Token(string filePath){
     this->filePath.assign(filePath);
 
@@ -19,3 +20,124 @@ Token::Token(string filePath){
     this->kw = Keywords();
     this->op = Operators();
 }
+
+// Scanning for Identifier
+void Token::scanIdentifier(){
+    string s = "";
+    if(Helpers::isBeginningOfIdentifier(this->ch)){
+        while(Helpers::isBeginningOfIdentifier(this->ch) || Helpers::isNum(this->ch)){
+            s += this->ch;
+            this->ch = fgetc(this->fd);
+        }
+
+        if(this->kw.isKeyword(s)){
+            cout<<"Keyword: "<<s<<"\n";
+            return;
+        }
+
+        else{
+            cout<<"Identifier: "<<s<<"\n";
+        }
+    }
+}
+
+
+// Scanning for Macro
+void Token::scanMacro(){
+    string s = "";
+    if(Helpers::isMacro(this->ch)){
+        while(this->ch != '\n' && !Helpers::isEndFile(this->ch)){
+            s += this->ch;
+            this->ch = fgetc(this->fd);
+        }
+
+        cout<<"Macro: "<<s<<"\n";
+    }
+}
+
+// Scanning for String Literal
+void Token::scanString(){
+    string s = "";
+    if(Helpers::isBeginningOfString(this->ch)){
+        this->ch = fgetc(this->fd);
+        while(this->ch != '\n' && !Helpers::isEndFile(this->ch)){
+            s += this->ch;
+            this->ch = fgetc(this->fd);
+        }
+
+        cout<<"String: "<<s<<"\n";
+    }
+}
+
+// Scanning for Slash(/)
+void Token::scanSlash(){
+    if(Helpers::isSlash(this->ch)){
+        this->ch = fgetc(this->fd);
+
+        // Single Line Comments
+        if(Helpers::isSlash(this->ch)){
+            string s = "";
+            while(this->ch != '\n' && !Helpers::isEndFile(this->ch)){
+                s += this->ch;
+                this->ch = fgetc(this->fd);
+            }
+
+            cout<<"Comment: "<<s<<"\n";
+            return;   
+        }
+
+        // Multi Line Comments
+        else if(this->ch == '*'){
+            string s = "";
+            s += this->ch;
+            this->ch = fgetc(this->fd);
+            
+            while(this->ch != '*' && !Helpers::isEndFile(this->ch)){
+                s += this->ch;
+                this->ch = fgetc(this->fd);
+            }
+
+            this->ch = fgetc(this->fd);
+
+            while(this->ch != '/' && !Helpers::isEndFile(this->ch)){
+                this->ch = fgetc(this->fd);
+            }
+
+            cout<<"Comment: "<<s<<"\n";
+            return; 
+        }
+
+        // Handle the "/-=" operator
+        else if(this->ch == '='){
+            cout<<"Operator : /="<<"\n";
+            return;
+        }
+
+        // Standalong "/" operator
+        else{
+            cout<<"Operator: /"<<"\n";
+            return;
+        }
+    }
+}
+
+// Scanning for Numbers
+void Token::scanNum(){
+    if(Helpers::isNum(this->ch)){
+        string s = "";
+
+        while(Helpers::isNum(this->ch)){
+            s += this->ch;
+            this->ch = fgetc(this->fd);
+
+            if(Helpers::isBeginningOfIdentifier(this->ch)){
+                cout<<"Error: Invalid Number"<<"\n";
+                exit(1);
+                return;
+            }
+        }
+
+        cout<<"Number: "<<s<<"\n";
+    }
+}
+

@@ -24,12 +24,8 @@ class Token{
         void scanString();
         void scanSlash();
         void scanNum();
-        void scanPlus();
-        void scanMinus();
-        void scanMultiply();
         void scanBracket();
-        void scanEquals();
-        void scanSemicolon();
+        void scanOperators();
 };
 
 

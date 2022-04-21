@@ -16,6 +16,7 @@ class Helpers{
         static bool isSlash(char);
         static bool isBracket(char);
         static bool isSemiColon(char);
+        static bool isEndFile(char);
 };
 
 

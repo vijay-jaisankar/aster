@@ -39,3 +39,7 @@ bool Helpers::isSemiColon(char ch){
 bool Helpers::isSlash(char ch){
     return (ch == '/');
 }
+
+bool Helpers::isEndFile(char ch){
+    return (ch == EOF);
+}
