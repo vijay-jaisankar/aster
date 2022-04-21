@@ -26,6 +26,7 @@ class Token{
         void scanNum();
         void scanBracket();
         void scanOperators();
+        void scanDelimiter();
 };
 
 

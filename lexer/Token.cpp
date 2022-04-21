@@ -141,3 +141,38 @@ void Token::scanNum(){
     }
 }
 
+// Scanning for Parentheses
+void Token::scanBracket(){
+    if(Helpers::isBracket(this->ch)){
+        cout<<"Brackets: "<<this->ch<<"\n";
+    }
+}
+
+// Scanning for Delimiter
+void Token::scanDelimiter(){
+    if(Helpers::isSemiColon(this->ch)){
+        cout<<"Delimiter: "<<this->ch<<"\n";
+    }
+}
+
+// Main Lexer Function 
+void Token::LexicalAnalysis(){
+    this->ch = fgetc(this->fd);
+
+    while(!Helpers::isEndFile(this->ch)){
+
+        // Perform Matching Algorithms
+        this->scanIdentifier();
+        this->scanMacro();
+        this->scanString();
+        this->scanSlash();
+        this->scanNum();
+        this->scanBracket();
+        this->scanDelimiter();
+
+        // Update Pointer
+        this->ch = fgetc(this->fd);
+    }
+
+    fclose(this->fd);
+}
