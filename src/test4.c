@@ -1,6 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+/* comment
+*/
+
 int main(void){
     int x = 5;
     x&=x;

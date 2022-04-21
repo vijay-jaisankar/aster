@@ -109,6 +109,29 @@ const char* operators[41] = {
     "->", "++", "--", "<<", ">>", "<=", ">=", "==", "!=", "&&",
     "||", "+=", "-=", "*=", "/=", "%=", "&=", "^="
 };
+#define kw 1
+#define op 2
+#define id 3
+#define str 4
+#define num 5
+#define spc 6
+#define hdr 7
+#define comm 8
+
+typedef struct {
+    int type;
+    string lexeme;
+} token;
+
+// vector of tokens
+vector<token> tokens;
+token t;
+
+void init_token( token& t )
+{
+    t.type = -1;
+    t.lexeme = ""; 
+}
 
 int main() {_
 
@@ -151,11 +174,19 @@ int main() {_
             for(k = 0; k < 32; k++) {
                 if(strcmp(word, keywords[k]) == 0) {
                     cout<<"Keyword: "<<word<<endl;
+                    init_token(t);
+                    t.type = kw;
+                    t.lexeme = word;
+                    tokens.pb(t);
                     break;
                 }
             }
             if(k == 32) {
                 cout<<"Identifier: "<<word<<endl;
+                init_token(t);
+                t.type = id;
+                t.lexeme = word;
+                tokens.pb(t);
             }
         }
 
@@ -173,12 +204,19 @@ int main() {_
             for(int j=0;j<i;j++)  word[j] = array[j];
             word[i] = '\0';
             cout<<"macro: "<<word<<endl;
+            init_token(t);
+            t.type = hdr;
+            t.lexeme = word;
+            tokens.pb(t);
         }
 
         // beggining of a string
         if(ch == '"'){
             i=0;
             for(auto &c: array) c = '\0';
+            
+            array[i] = ch;
+            i++;
 
             ch = fgetc(fd);
             // until the end of the string
@@ -187,18 +225,31 @@ int main() {_
                 i++;
                 ch = fgetc(fd);
             }
+            array[i] = ch;
+            i++;
+
             word = new char[i+1];
             for(int j=0;j<i;j++)  word[j] = array[j];
             word[i] = '\0';
             cout<<"string: "<<word<<endl;
+            init_token(t);
+            t.type = str;
+            t.lexeme = word;
+            tokens.pb(t);
         }
 
         if( ch == '/' ){
             i = 0;
             for(auto &c: array) c = '\0';
 
+            array[i] = ch;
+            i++;
+
             ch = fgetc(fd);
             if(ch == '/'){
+                array[i] = ch;
+                i++;
+
                 ch = fgetc(fd);
                 while(ch!='\n' && ch!=EOF){
                     array[i] = ch;
@@ -209,32 +260,55 @@ int main() {_
                 for(int j=0;j<i;j++)  word[j] = array[j];
                 word[i] = '\0';
                 cout<<"comment: "<<word<<endl;
+                init_token(t);
+                t.type = comm;
+                t.lexeme = word;
+                tokens.pb(t);
             }
             else if(ch == '*'){
-                ch = fgetc(fd);
                 array[i] = ch;
                 i++;
+                
+                ch = fgetc(fd);
+                // array[i] = ch;
+                // i++;
                 while(ch!='*' && ch!=EOF){
                     array[i] = ch;
                     i++;
                     ch = fgetc(fd);
                 }
+                array[i] = ch;
+                i++;
+
                 ch = fgetc(fd);
-                while(ch!='/' && ch!=EOF){
-                    ch = fgetc(fd);
-                }
+                array[i] = ch;
+                i++;
+              
+
                 word = new char[i+1];
                 for(int j=0;j<i;j++)  word[j] = array[j];
                 word[i] = '\0';
                 cout<<"comment: "<<word<<endl;
+                init_token(t);
+                t.type = comm;
+                t.lexeme = word;
+                tokens.pb(t);
+
             }
             // handle "/=" operator 
             else if(ch == '='){
                 cout<<"Operator: /="<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "/=";
+                tokens.pb(t);
             }
             else{
                 cout<<"Operator: /"<<endl;
-                // move the pointer one step back
+                init_token(t);
+                t.type = op;
+                t.lexeme = "/";
+                tokens.pb(t);
             }
         }
 
@@ -257,6 +331,10 @@ int main() {_
             for(int j=0;j<i;j++)  word[j] = array[j];
             word[i] = '\0';
             cout<<"number: "<<word<<endl;
+            init_token(t);
+            t.type = num;
+            t.lexeme = word;
+            tokens.pb(t);
         }
 
         if(ch == '+'){
@@ -266,14 +344,28 @@ int main() {_
             ch = fgetc(fd);
             if(ch == '+'){
                 cout<<"Operator: ++"<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "++";
+                tokens.pb(t);
             }
             else if(ch == '='){
                 cout<<"Operator: +="<<endl;
+
+                init_token(t);
+                t.type = op;
+                t.lexeme = "+=";
+                tokens.pb(t);
             }
             else{
                 cout<<"Operator: +"<<endl;
                 // move the pointer one step back
                 fseek(fd, -1, SEEK_CUR);
+                init_token(t);
+                t.type = op;
+                t.lexeme = "+";
+                tokens.pb(t);
+
             }
         }
 
@@ -284,14 +376,29 @@ int main() {_
             ch = fgetc(fd);
             if(ch == '-'){
                 cout<<"Operator: --"<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "--";
+                tokens.pb(t);
+
             }
             else if(ch == '='){
                 cout<<"Operator: -="<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "-=";
+                tokens.pb(t);
+
             }
             else{
                 cout<<"Operator: -"<<endl;
                 // move the pointer one step back
                 fseek(fd, -1, SEEK_CUR);
+                init_token(t);
+                t.type = op;
+                t.lexeme = "-";
+                tokens.pb(t);
+
             }
         }
 
@@ -302,11 +409,21 @@ int main() {_
             ch = fgetc(fd);
             if(ch == '='){
                 cout<<"Operator: *="<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "*=";
+                tokens.pb(t);
+
             }
             else{
                 cout<<"Operator: *"<<endl;
                 // move the pointer one step back
                 fseek(fd, -1, SEEK_CUR);
+                init_token(t);
+                t.type = op;
+                t.lexeme = "*";
+                tokens.pb(t);
+
             }
         }
 
@@ -317,12 +434,23 @@ int main() {_
             ch = fgetc(fd);
             if(ch == '='){
                 cout<<"Operator: =="<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "==";
+                tokens.pb(t);
+
             }
             else{
                 cout<<"Operator: ="<<endl;
                 // move the pointer one step back
                 fseek(fd, -1, SEEK_CUR);
+                init_token(t);
+                t.type = op;
+                t.lexeme = "=";
+                tokens.pb(t);
+
             }
+
         }
 
         if(ch == '^'){
@@ -332,11 +460,21 @@ int main() {_
             ch = fgetc(fd);
             if(ch == '='){
                 cout<<"Operator: ^="<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "^=";
+                tokens.pb(t);
+
             }
             else{
                 cout<<"Operator: ^"<<endl;
                 // move the pointer one step back
                 fseek(fd, -1, SEEK_CUR);
+                init_token(t);
+                t.type = op;
+                t.lexeme = "^";
+                tokens.pb(t);
+
             }
         }
 
@@ -347,11 +485,21 @@ int main() {_
             ch = fgetc(fd);
             if(ch == '='){
                 cout<<"Operator: %="<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "%=";
+                tokens.pb(t);
+
             }
             else{
                 cout<<"Operator: %"<<endl;
                 // move the pointer one step back
                 fseek(fd, -1, SEEK_CUR);
+                init_token(t);
+                t.type = op;
+                t.lexeme = "%";
+                tokens.pb(t);
+
             }
         }
 
@@ -362,14 +510,29 @@ int main() {_
             ch = fgetc(fd);
             if(ch == '&'){
                 cout<<"Operator: &&"<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "&&";
+                tokens.pb(t);
+
             }
             else if(ch == '='){
                 cout<<"Operator: &="<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "&=";
+                tokens.pb(t);
+
             }
             else{
                 cout<<"Operator: &"<<endl;
                 // move the pointer one step back
                 fseek(fd, -1, SEEK_CUR);
+                init_token(t);
+                t.type = op;
+                t.lexeme = "&";
+                tokens.pb(t);
+
             }
         }
 
@@ -380,14 +543,28 @@ int main() {_
             ch = fgetc(fd);
             if(ch == '|'){
                 cout<<"Operator: ||"<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "||";
+                tokens.pb(t);
+
             }
             else if(ch == '='){
                 cout<<"Operator: |="<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "|=";
+                tokens.pb(t);
+
             }
             else{
                 cout<<"Operator: |"<<endl;
                 // move the pointer one step back
                 fseek(fd, -1, SEEK_CUR);
+                init_token(t);
+                t.type = op;
+                t.lexeme = "|";
+                tokens.pb(t);
             }
         }
 
@@ -398,14 +575,28 @@ int main() {_
             ch = fgetc(fd);
             if(ch == '>'){
                 cout<<"Operator: >>"<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = ">>";
+                tokens.pb(t);
+
             }
             else if(ch == '='){
                 cout<<"Operator: >="<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = ">=";
+                tokens.pb(t);
+
             }
             else{
                 cout<<"Operator: >"<<endl;
                 // move the pointer one step back
                 fseek(fd, -1, SEEK_CUR);
+                init_token(t);
+                t.type = op;
+                t.lexeme = ">";
+                tokens.pb(t);
             }
         }
 
@@ -416,14 +607,29 @@ int main() {_
             ch = fgetc(fd);
             if(ch == '<'){
                 cout<<"Operator: <<"<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "<<";
+                tokens.pb(t);
+
             }
             else if(ch == '='){
                 cout<<"Operator: <="<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "<=";
+                tokens.pb(t);
+
             }
             else{
                 cout<<"Operator: <"<<endl;
                 // move the pointer one step back
                 fseek(fd, -1, SEEK_CUR);
+                init_token(t);
+                t.type = op;
+                t.lexeme = "<";
+                tokens.pb(t);
+
             }
         }
 
@@ -434,11 +640,21 @@ int main() {_
             ch = fgetc(fd);
             if(ch == '='){
                 cout<<"Operator: !="<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "!=";
+                tokens.pb(t);
+
             }
             else{
                 cout<<"Operator: !"<<endl;
                 // move the pointer one step back
                 fseek(fd, -1, SEEK_CUR);
+                init_token(t);
+                t.type = op;
+                t.lexeme = "!";
+                tokens.pb(t);
+
             }
         }
 
@@ -449,11 +665,21 @@ int main() {_
             ch = fgetc(fd);
             if(ch == '='){
                 cout<<"Operator: ~="<<endl;
+                init_token(t);
+                t.type = op;
+                t.lexeme = "~=";
+                tokens.pb(t);
+
             }
             else{
                 cout<<"Operator: ~"<<endl;
                 // move the pointer one step back
                 fseek(fd, -1, SEEK_CUR);
+                init_token(t);
+                t.type = op;
+                t.lexeme = "~";
+                tokens.pb(t);
+
             }
         }
 
@@ -462,6 +688,11 @@ int main() {_
             for(auto &c: array) c = '\0';
 
             cout<<"Brackets: "<< ch <<endl;
+            init_token(t);
+            t.type = spc;
+            t.lexeme = ch;
+            tokens.pb(t);
+
         }
 
         if(ch == ';'){
@@ -469,13 +700,20 @@ int main() {_
             for(auto &c: array) c = '\0';
 
             cout<<"Delimiter: ;"<<endl;
+            init_token(t);
+            t.type = spc;
+            t.lexeme = ch;
+            tokens.pb(t);
         }
 
         ch = fgetc(fd);
     }
-
  
     // close the file
     fclose(fd);
 
+
+    for(auto x: tokens){
+        cout<<x.lexeme<<" "<<x.type<<endl;
+    }
 }
