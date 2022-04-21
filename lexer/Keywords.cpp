@@ -4,7 +4,7 @@
 #include "Keywords.h"
 using namespace std;
 
-Operators::Operators(){
+Keywords::Keywords(){
     this->listKeywords = {"auto", "break", "case", "char", "const", "continue", 
     "default", "do", "double", "else", "enum", "extern", 
     "float", "for", "goto", "if", "int", "long", "register", "return", 
@@ -12,10 +12,10 @@ Operators::Operators(){
     "typedef", "union", "unsigned", "void", "volatile", "while"};
 }
 
-vector<string> Operators::getListKeywords(){
+vector<string> Keywords::getListKeywords(){
     return this->listKeywords;
 }
 
-bool Operators::isKeyword(string word){
+bool Keywords::isKeyword(string word){
     return (find(this->listKeywords.begin(), this->listKeywords.end(), word) != this->listKeywords.end());
 }

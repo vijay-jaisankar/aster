@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 #include <string.h>
+#include "Operators.h"
+#include "Keywords.h"
 using namespace std;
 
 
@@ -11,6 +13,8 @@ class Token{
         FILE* fd;
         string filePath;
         char ch;
+        Operators op;
+        Keywords kw;
     public:
         Token(string);
         void LexicalAnalysis();

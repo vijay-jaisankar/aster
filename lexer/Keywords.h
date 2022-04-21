@@ -4,13 +4,13 @@
 #ifndef KEYWORDS_H
 #define KEYWORDS_H
 
-class Operators{
+class Keywords{
 
     private:
         vector<string> listKeywords;
 
     public:
-        Operators();
+        Keywords();
         vector<string> getListKeywords();
         bool isKeyword(string);
 };
