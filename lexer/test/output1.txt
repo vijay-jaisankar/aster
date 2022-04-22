@@ -1,0 +1,14 @@
+Comment: *
+    all includes
+
+Macro: #include <stdio.h>
+Macro: #include <stdlib.h>
+Macro: #include <string.h>
+Comment: / main function
+Keyword: int
+Identifier: main
+Brackets: (
+Keyword: void
+Brackets: )
+Brackets: {
+Brackets: }

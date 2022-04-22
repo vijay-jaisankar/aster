@@ -1,0 +1,43 @@
+Macro: #include <stdio.h>
+Macro: #include <stdlib.h>
+Macro: #include <string.h>
+Comment: * comment 
+Comment: / Function: main
+Keyword: int
+Identifier: main
+Brackets: (
+Keyword: void
+Brackets: )
+Brackets: {
+Keyword: int
+Identifier: x
+Operator: =
+Number: 0
+Delimiter: ;
+Identifier: x
+Operator: ++
+Delimiter: ;
+Identifier: x
+Operator: =
+Identifier: x
+Operator: /
+Number: 2
+Delimiter: ;
+Keyword: if
+Brackets: (
+Identifier: x
+Opeator: ==
+Number: 0
+Brackets: )
+Brackets: {
+Identifier: printf
+Brackets: (
+String: x is zero\n");
+Brackets: }
+Keyword: else
+Brackets: {
+Identifier: printf
+Brackets: (
+String: x is not zero\n");
+Brackets: }
+Brackets: }
