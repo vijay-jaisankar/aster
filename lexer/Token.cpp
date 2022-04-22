@@ -155,6 +155,251 @@ void Token::scanDelimiter(){
     }
 }
 
+// Scanning for Operators
+void Token::scanOperators(){
+    if(this->ch == '+'){
+        this->ch = fgetc(this->fd);
+
+        // "++" Operator
+        if(this->ch == '+'){
+            cout<<"Operator: ++"<<"\n";
+            return;
+        }
+
+        // "+= Operator"
+        else if(this->ch == '='){
+            cout<<"Operator: +="<<"\n";
+            return;
+        }
+
+        // Standalone "+" Operator
+        else{
+            cout<<"Operator: +"<<"\n";
+            fseek(this->fd, -1, SEEK_CUR);
+            return;
+        }
+    }
+
+    if(this->ch == '-'){
+        this->ch = fgetc(this->fd);
+
+        // "--" Operator
+        if(this->ch == '-'){
+            cout<<"Operator: --"<<"\n";
+            return;
+        }
+
+        // "-= Operator"
+        else if(this->ch == '='){
+            cout<<"Operator: -="<<"\n";
+            return;
+        }
+
+        // Standalone "-" Operator
+        else{
+            cout<<"Operator: -"<<"\n";
+            fseek(this->fd, -1, SEEK_CUR);
+            return;
+        }
+    }
+
+    if(this->ch == '*'){
+        this->ch = fgetc(this->fd);
+
+        // "*=" Operator
+        if(this->ch == '='){
+            cout<<"Opeator: *="<<"\n";
+            return;
+        }
+
+        // Standalone "*" Operator
+        else{
+            cout<<"Operator: *"<<"\n";
+            fseek(this->fd, -1, SEEK_CUR);
+            return;
+        }
+    }
+
+    if(this->ch == '='){
+        this->ch = fgetc(this->fd);
+
+        // "==" Operator
+        if(this->ch == '='){
+            cout<<"Opeator: =="<<"\n";
+            return;
+        }
+
+        // Standalone "=" Operator
+        else{
+            cout<<"Operator: ="<<"\n";
+            fseek(this->fd, -1, SEEK_CUR);
+            return;
+        }
+    }
+
+    if(this->ch == '^'){
+        this->ch = fgetc(this->fd);
+
+        // "^=" Operator
+        if(this->ch == '='){
+            cout<<"Opeator: ^="<<"\n";
+            return;
+        }
+
+        // Standalone "^" Operator
+        else{
+            cout<<"Operator: ^"<<"\n";
+            fseek(this->fd, -1, SEEK_CUR);
+            return;
+        }
+    }
+
+    if(this->ch == '%'){
+        this->ch = fgetc(this->fd);
+
+        // "%=" Operator
+        if(this->ch == '='){
+            cout<<"Opeator: %="<<"\n";
+            return;
+        }
+
+        // Standalone "%" Operator
+        else{
+            cout<<"Operator: %"<<"\n";
+            fseek(this->fd, -1, SEEK_CUR);
+            return;
+        }
+    }
+
+    if(this->ch == '&'){
+        this->ch = fgetc(this->fd);
+
+        // "&&" Operator
+        if(this->ch == '&'){
+            cout<<"Operator: &&"<<"\n";
+            return;
+        }
+
+        // "&=" Operator
+        else if(this->ch == '='){
+            cout<<"Opeator: &="<<"\n";
+            return;
+        }
+
+        // Standalone "&" Operator
+        else{
+            cout<<"Operator: &"<<"\n";
+            fseek(this->fd, -1, SEEK_CUR);
+            return;
+        }
+    }
+
+    if(this->ch == '|'){
+        this->ch = fgetc(this->fd);
+
+        // "||" Operator
+        if(this->ch == '|'){
+            cout<<"Operator: ||"<<"\n";
+            return;
+        }
+
+        // "|=" Operator
+        else if(this->ch == '='){
+            cout<<"Opeator: |="<<"\n";
+            return;
+        }
+
+        // Standalone "|" Operator
+        else{
+            cout<<"Operator: |"<<"\n";
+            fseek(this->fd, -1, SEEK_CUR);
+            return;
+        }
+    }
+
+    if(this->ch == '>'){
+        this->ch = fgetc(this->fd);
+
+        // ">>" Operator
+        if(this->ch == '>'){
+            cout<<"Operator: >>"<<"\n";
+            return;
+        }
+
+        // ">=" Operator
+        else if(this->ch == '='){
+            cout<<"Opeator: >="<<"\n";
+            return;
+        }
+
+        // Standalone ">" Operator
+        else{
+            cout<<"Operator: >"<<"\n";
+            fseek(this->fd, -1, SEEK_CUR);
+            return;
+        }
+    }
+
+    if(this->ch == '<'){
+        this->ch = fgetc(this->fd);
+
+        // "<<" Operator
+        if(this->ch == '<'){
+            cout<<"Operator: <<"<<"\n";
+            return;
+        }
+
+        // "<=" Operator
+        else if(this->ch == '='){
+            cout<<"Opeator: <="<<"\n";
+            return;
+        }
+
+        // Standalone "<" Operator
+        else{
+            cout<<"Operator: <"<<"\n";
+            fseek(this->fd, -1, SEEK_CUR);
+            return;
+        }
+    }
+
+    if(this->ch == '!'){
+        this->ch = fgetc(this->fd);
+
+        // "!=" Operator
+        if(this->ch == '='){
+            cout<<"Opeator: !="<<"\n";
+            return;
+        }
+
+        // Standalone "!" Operator
+        else{
+            cout<<"Operator: !"<<"\n";
+            fseek(this->fd, -1, SEEK_CUR);
+            return;
+        }
+    }
+
+    if(this->ch == '~'){
+        this->ch = fgetc(this->fd);
+
+        // "~=" Operator
+        if(this->ch == '='){
+            cout<<"Opeator: ~="<<"\n";
+            return;
+        }
+
+        // Standalone "~" Operator
+        else{
+            cout<<"Operator: ~"<<"\n";
+            fseek(this->fd, -1, SEEK_CUR);
+            return;
+        }
+    }
+}
+
+
+
 // Main Lexer Function 
 void Token::LexicalAnalysis(){
     this->ch = fgetc(this->fd);
@@ -167,6 +412,7 @@ void Token::LexicalAnalysis(){
         this->scanString();
         this->scanSlash();
         this->scanNum();
+        this->scanOperators();
         this->scanBracket();
         this->scanDelimiter();
 
