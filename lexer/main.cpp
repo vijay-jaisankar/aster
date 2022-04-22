@@ -22,5 +22,9 @@ int main(int argc, char const *argv[]){
     // Performing Lexical Analysis
     t->LexicalAnalysis();
 
+    // Printing out the tokens
+    // cout<<"Tokens List: "<<"\n"; 
+    // t->printTokensList();
+
     return 0;
 }

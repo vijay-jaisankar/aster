@@ -2,16 +2,12 @@
 #include <string.h>
 #include "Operators.h"
 #include "Keywords.h"
+#include "Structs.h"
 using namespace std;
 
 
 #ifndef TOKEN_H
 #define TOKEN_H
-
-struct token{
-    int type;
-    string lexeme;
-};
 
 class Token{
     private:
@@ -34,7 +30,10 @@ class Token{
         void scanBracket();
         void scanOperators();
         void scanDelimiter();
-        void getlistoftokens();
+
+        void printTokensList();
+        vector<token> getTokensList();
+
 };
 
 

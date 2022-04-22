@@ -6,16 +6,10 @@
 #include "Keywords.h"
 #include "Operators.h"
 #include "Helpers.h"
+#include "Structs.h"
 using namespace std;
 
-#define Kw 1
-#define Op 2
-#define Id 3
-#define Str 4
-#define Num 5
-#define Spc 6
-#define Hdr 7
-#define Comm 8
+
 
 // Constructor
 Token::Token(string filePath){
@@ -557,8 +551,12 @@ void Token::LexicalAnalysis(){
     fclose(this->fd);
 }
 
-void Token::getlistoftokens(){
-    for(auto x: tokenslist){
+void Token::printTokensList(){
+    for(auto x: this->tokenslist){
         cout<<x.lexeme<<" "<<x.type<<endl;
     }
+}
+
+vector<token> Token::getTokensList(){
+    return this->tokenslist;
 }
