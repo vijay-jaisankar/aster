@@ -8,6 +8,11 @@ using namespace std;
 #ifndef TOKEN_H
 #define TOKEN_H
 
+struct token{
+    int type;
+    string lexeme;
+};
+
 class Token{
     private:
         FILE* fd;
@@ -15,6 +20,8 @@ class Token{
         char ch;
         Operators op;
         Keywords kw;
+        vector<token> tokenslist;
+        struct token tokens;
     public:
         Token(string);
         void LexicalAnalysis();
@@ -27,6 +34,7 @@ class Token{
         void scanBracket();
         void scanOperators();
         void scanDelimiter();
+        void getlistoftokens();
 };
 
 
