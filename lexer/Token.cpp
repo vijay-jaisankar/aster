@@ -81,7 +81,7 @@ void Token::scanString(){
             this->ch = fgetc(this->fd);
         }
 
-        cout<<"String: "<<s<<"\n";
+        cout<<"String: "<<s <<"\n";
         tokens.type = Str;
         tokens.lexeme = s;
         tokenslist.push_back(tokens);
@@ -90,27 +90,29 @@ void Token::scanString(){
 
 // Scanning for Slash(/)
 void Token::scanSlash(){
-    if(Helpers::isSlash(this->ch)){
-        this->ch = fgetc(this->fd);
 
+    if(Helpers::isSlash(this->ch)){ 
+        
+        this->ch = fgetc(this->fd);
         // Single Line Comments
         if(Helpers::isSlash(this->ch)){
             string s = "";
+            s += this->ch;
             while(this->ch != '\n' && !Helpers::isEndFile(this->ch)){
                 s += this->ch;
                 this->ch = fgetc(this->fd);
             }
 
-            cout<<"Comment: "<<s<<"\n";
+            cout<<"Comment: "<<s <<"\n";
             tokens.type = Comm;
             tokens.lexeme = s;
             tokenslist.push_back(tokens);
             return;   
         }
-
+        
         // Multi Line Comments
         else if(this->ch == '*'){
-            string s = "";
+            string s = "/";
             s += this->ch;
             this->ch = fgetc(this->fd);
             
@@ -118,14 +120,14 @@ void Token::scanSlash(){
                 s += this->ch;
                 this->ch = fgetc(this->fd);
             }
-
+            s += this->ch;
             this->ch = fgetc(this->fd);
 
             while(this->ch != '/' && !Helpers::isEndFile(this->ch)){
                 this->ch = fgetc(this->fd);
             }
-
-            cout<<"Comment: "<<s<<"\n";
+            s += this->ch;
+            cout<<"Comment: "<<s <<"\n";
             tokens.type = Comm;
             tokens.lexeme = s;
             tokenslist.push_back(tokens);
