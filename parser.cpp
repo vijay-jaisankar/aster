@@ -23,6 +23,7 @@
 #include<cctype>
 #include<cassert>
 #include<complex>
+#include "prettyprint.hpp"
 #include<stdlib.h>
 #include<fstream>
 // #include"parser.h"
@@ -165,17 +166,17 @@ ast_node create_ast(vector<token> tokens)
                 t = newNode(stT.top().type, stT.top().lexeme);
                 stT.pop();
 
-                cout<<"stT top2: "<<stT.top().lexeme<<endl;
+                // cout<<"stT top2: "<<stT.top().lexeme<<endl;
 
                 t1 = stN.top();
                 stN.pop();
 
-                cout<<"stN top3: "<<stN.top()->lexeme<<endl;
+                // cout<<"stN top3: "<<stN.top()->lexeme<<endl;
 
                 t2 = stN.top();
                 stN.pop();
 
-                cout<<"stN top4: "<<stN.top()->lexeme<<endl;
+                // cout<<"stN top4: "<<stN.top()->lexeme<<endl;
 
                 t->right = t1;
                 t->left = t2;
@@ -183,7 +184,7 @@ ast_node create_ast(vector<token> tokens)
             }
             stT.pop();
 
-            cout<<"stT top3: "<<stT.top().lexeme<<endl;
+            // cout<<"stT top3: "<<stT.top().lexeme<<endl;
         }
     } 
     t = stN.top();
