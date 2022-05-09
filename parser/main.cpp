@@ -51,5 +51,8 @@ int main(int argc, char const *argv[]){
     // Print the AST in post-order fashion
     postOrder(root);
 
+    // Pretty print the ast
+    printBT(root);
+
     return 0;
 }

@@ -46,6 +46,65 @@ void postOrder(ast_node root, int indent =0){
     }
 }
 
+
+// preorder
+void preOrder(ast_node root, int indent =0){
+    if(root!=NULL){
+        if (indent) {
+            cout << setw(indent) << ' ';
+        }
+        cout<< root->lexeme << "\n ";
+        if(root->left){
+            preOrder(root->left, indent+4);
+        }
+        if(root->right){
+            preOrder(root->right, indent+4);
+        }
+    }
+}
+
+
+// inorder
+void inOrder(ast_node root, int indent =0){
+    if(root!=NULL){
+        if(root->left){
+            inOrder(root->left, indent+4);
+        }
+        if (indent) {
+            cout << setw(indent) << ' ';
+        }
+        cout<< root->lexeme << "\n ";
+        if(root->right){
+            inOrder(root->right, indent+4);
+        }
+    }
+}
+
+
+
+// pretty printing the abstract syntax tree
+void printBT(const std::string& prefix, ast_node node, bool isLeft)
+{
+    if (node != nullptr)
+    {
+        std::cout << prefix;
+        std::cout << (isLeft ? "|--" : "L--");
+        // print the value of the node
+        std::cout << node->lexeme << std::endl;
+        // enter the next tree level - left and right branch
+        printBT(prefix + (isLeft ? "|   " : "    "), node->left, true);
+        printBT(prefix + (isLeft ? "|   " : "    "), node->right, false);
+    }
+}
+
+void printBT(ast_node node)
+{
+    printBT("", node, false);
+}
+
+
+
+
 // Create and return new node
 ast_node newNode(int type, string lexeme){
     ast_node n = new node;
@@ -128,5 +187,8 @@ ast_node createAST(vector<token> tokens){
     t = stN.top();
     return t;
 }
+
+
+
 
 #endif
