@@ -1,8 +1,25 @@
+#ifndef NODE_H
+#define NODE_H
+
 #include <string>
 #include <bits/stdc++.h>
 #include "token.h"
 
 using namespace std;
+
+enum {
+    KW=1, ID, STR, NUM, HDR, COMM,
+    
+    NOT=10, BITWISE_AND, BITWISE_NOT, BITWISE_XOR, MULTIPLICATION, DIVISION, MODULO, ADDITION, SUBTRACTION, 
+    LESS_THAN, GREATER_THAN, EQUAL, BITWISE_OR, QUESTION, COLON, SEMICOLON, COMMA, DOT, 
+    LEFT_SQUARE_BRACKET, RIGHT_SQUARE_BRACKET, LEFT_PARENTHESIS, RIGHT_PARENTHESIS,
+    LEFT_CURLY_BRACKET, RIGHT_CURLY_BRACKET, POINTER, INCREMENT, DECREMENT,
+    LEFT_SHIFT, RIGHT_SHIFT, LESS_THAN_OR_EQUAL, GREATER_THAN_OR_EQUAL,
+    EQUAL_TO, NOT_EQUAL, AND, OR, ADDITION_EQUAL, SUBTRACTION_EQUAL,
+    MULTIPLICATION_EQUAL, DIVISION_EQUAL, MODULO_EQUAL, BITWISE_AND_EQUAL,
+    BITWISE_XOR_EQUAL, BITWISE_OR_EQUAL, BITWISE_NOT_EQUAL, ERROR, END_OF_TEXT
+};
+
 
 // Structure to store AST Nodes
 typedef struct node {
@@ -12,11 +29,20 @@ typedef struct node {
 }*ast_node;
 
 // Post order traversal of the AST
-void postOrder(ast_node root){
-    if(root){
-        postOrder(root->left);
-        postOrder(root->right);
-        cout<< "lexeme: "<<root->lexeme << ", type: "<< root->type << endl;
+void postOrder(ast_node root, int indent =0){
+    if(root!=NULL){
+        if(root->right){
+            postOrder(root->right, indent+4);
+        }
+        if (indent) {
+            cout << setw(indent) << ' ';
+        }
+        if (root->right) cout<<" /\n" << setw(indent) << ' ';
+        cout<< root->lexeme << "\n ";
+        if(root->left){
+            cout<<setw(indent) << ' ' <<" \\\n";
+            postOrder(root->left, indent+4);
+        }
     }
 }
 
@@ -32,13 +58,12 @@ ast_node newNode(int type, string lexeme){
 // Create AST
 ast_node createAST(vector<token> tokens){
     
-    // stack to hold tokens
     stack<ast_node> stN;
     stack<token> stT;
     ast_node t, t1, t2;
 
     // priority of operators
-    int p[123] = {0};
+    int p[40] = {0};
     p[ADDITION] = p[SUBTRACTION] = 1, p[DIVISION] = p[MULTIPLICATION] = 2, p[BITWISE_XOR] = 3,
     p[RIGHT_PARENTHESIS] = p[LEFT_PARENTHESIS] = 0;
 
@@ -103,3 +128,5 @@ ast_node createAST(vector<token> tokens){
     t = stN.top();
     return t;
 }
+
+#endif

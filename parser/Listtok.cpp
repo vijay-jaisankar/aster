@@ -1,25 +1,25 @@
 #include <bits/stdc++.h>
 #include <vector>
-#include "TokenRep.h"
+#include "Listtok.h"
 #include "token.h"
 
 // Constructor
-TokenRep::TokenRep(){
+Listtok::Listtok(){
     this->tokens = {};
 }
 
 // Get the list of tokens
-vector<token> TokenRep::getListTokens(){
+vector<token> Listtok::getListTokens(){
     return this->tokens;
 }
 
 // Add token into list
-void TokenRep::addToken(token t){
+void Listtok::addToken(token t){
     this->tokens.push_back(t);
 }
 
 // Print all tokens
-void TokenRep::printTokens(){
+void Listtok::printTokens(){
     for(auto t : this->tokens){
         cout << t.lexeme << " " << t.type << endl;
     }

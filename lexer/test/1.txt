@@ -1,10 +1,10 @@
-Comment: *
+Comment: /*
     all includes
-
+*/
 Macro: #include <stdio.h>
 Macro: #include <stdlib.h>
 Macro: #include <string.h>
-Comment: / main function
+Comment: // main function
 Keyword: int
 Identifier: main
 Brackets: (

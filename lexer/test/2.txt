@@ -1,8 +1,8 @@
 Macro: #include <stdio.h>
 Macro: #include <stdlib.h>
 Macro: #include <string.h>
-Comment: * comment 
-Comment: / Function: main
+Comment: /* comment */
+Comment: // Function: main
 Keyword: int
 Identifier: main
 Brackets: (

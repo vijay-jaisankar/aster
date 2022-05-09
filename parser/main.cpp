@@ -4,15 +4,19 @@
 
 #include "node.h"
 #include "token.h"
-#include "TokenRep.h"
+#include "Listtok.h"
 
-// List of tokens
-TokenRep tokensObj = TokenRep();
+
+
 
 // Read list of tokens
-char* fileName = "output.txt";
+const char* fileName = "output.txt";
 
 int main(int argc, char const *argv[]){
+
+
+    // List of tokens
+    Listtok* tokensObj = new Listtok();
 
     FILE *fp = fopen(fileName, "r");
 
@@ -31,17 +35,17 @@ int main(int argc, char const *argv[]){
         tok.type = atoi(t);
 
         // Add the token to the list of vectors
-        tokensObj.addToken(tok);
+        tokensObj->addToken(tok);
     }
 
     // Close the file
     fclose(fp);
 
     // Print all tokens
-    tokensObj.printTokens();
+    tokensObj->printTokens();
 
     // Create AST
-    vector<token> t = tokensObj.getListTokens();
+    vector<token> t = tokensObj->getListTokens();
     ast_node root = createAST(t);
 
     // Print the AST in post-order fashion
