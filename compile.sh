@@ -6,11 +6,14 @@ g++ -o parser main.cpp node.h token.h Listtok.cpp
 echo "Parser compiled"
 
 
-cd lexer/
+cd ../lexer/
 ./lexer $1 
-mv output.txt ../parser 
 
 cd ../parser
+touch output.txt
+
+cp ../lexer/output.txt output.txt 
+
 pwd
 ./parser
 

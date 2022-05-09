@@ -22,9 +22,14 @@ int main(int argc, char const *argv[]){
     // Performing Lexical Analysis
     t->LexicalAnalysis();
 
-    // Printing out the tokens
-    // cout<<"Tokens List: "<<"\n"; 
-    // t->printTokensList();
+
+    // write the output into file
+    ofstream outfile;
+    outfile.open("output.txt");
+    for(auto x: t->getTokensList()){
+        outfile<<x.lexeme<<" "<<x.type<<endl;
+    }
+    outfile.close();
 
     return 0;
 }

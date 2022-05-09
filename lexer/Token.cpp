@@ -39,7 +39,7 @@ void Token::scanIdentifier(){
 
         if(this->kw.isKeyword(s)){
             cout<<"Keyword: "<<s<<"\n";
-            tokens.type = Kw;
+            tokens.type = KW;
             tokens.lexeme = s;
             tokenslist.push_back(tokens);
             return;
@@ -47,7 +47,7 @@ void Token::scanIdentifier(){
 
         else{
             cout<<"Identifier: "<<s<<"\n";
-            tokens.type = Id;
+            tokens.type = ID;
             tokens.lexeme = s;
             tokenslist.push_back(tokens);
         }
@@ -65,7 +65,7 @@ void Token::scanMacro(){
         }
 
         cout<<"Macro: "<<s<<"\n";
-        tokens.type = Hdr;
+        tokens.type = HDR;
         tokens.lexeme = s;
         tokenslist.push_back(tokens);
     }
@@ -82,7 +82,7 @@ void Token::scanString(){
         }
 
         cout<<"String: "<<s <<"\n";
-        tokens.type = Str;
+        tokens.type = STR;
         tokens.lexeme = s;
         tokenslist.push_back(tokens);
     }
@@ -104,7 +104,7 @@ void Token::scanSlash(){
             }
 
             cout<<"Comment: "<<s <<"\n";
-            tokens.type = Comm;
+            tokens.type = COMM;
             tokens.lexeme = s;
             tokenslist.push_back(tokens);
             return;   
@@ -128,7 +128,7 @@ void Token::scanSlash(){
             }
             s += this->ch;
             cout<<"Comment: "<<s <<"\n";
-            tokens.type = Comm;
+            tokens.type = COMM;
             tokens.lexeme = s;
             tokenslist.push_back(tokens);
             return; 
@@ -137,7 +137,7 @@ void Token::scanSlash(){
         // Handle the "/=" operator
         else if(this->ch == '='){
             cout<<"Operator : /="<<"\n";
-            tokens.type = Op;
+            tokens.type = DIVISION_EQUAL;
             tokens.lexeme = "/=";
             tokenslist.push_back(tokens);
             return;
@@ -146,7 +146,7 @@ void Token::scanSlash(){
         // Standalong "/" operator
         else{
             cout<<"Operator: /"<<"\n";
-            tokens.type = Op;
+            tokens.type = DIVISION;
             tokens.lexeme = "/";
             tokenslist.push_back(tokens);
             return;
@@ -171,7 +171,7 @@ void Token::scanNum(){
         }
 
         cout<<"Number: "<<s<<"\n";
-        tokens.type = Num;
+        tokens.type = NUM;
         tokens.lexeme = s;
         tokenslist.push_back(tokens);
     }
@@ -181,7 +181,7 @@ void Token::scanNum(){
 void Token::scanBracket(){
     if(Helpers::isBracket(this->ch)){
         cout<<"Brackets: "<<this->ch<<"\n";
-        tokens.type = Spc;
+        tokens.type = LEFT_PARENTHESIS;
         tokens.lexeme = this->ch;
         tokenslist.push_back(tokens);
     }
@@ -191,7 +191,7 @@ void Token::scanBracket(){
 void Token::scanDelimiter(){
     if(Helpers::isSemiColon(this->ch)){
         cout<<"Delimiter: "<<this->ch<<"\n";
-        tokens.type = Spc;
+        tokens.type = SEMICOLON;
         tokens.lexeme = this->ch;
         tokenslist.push_back(tokens);
     }
@@ -205,7 +205,7 @@ void Token::scanOperators(){
         // "++" Operator
         if(this->ch == '+'){
             cout<<"Operator: ++"<<"\n";
-            tokens.type = Op;
+            tokens.type = INCREMENT;
             tokens.lexeme = "++";
             tokenslist.push_back(tokens);
             return;
@@ -214,7 +214,7 @@ void Token::scanOperators(){
         // "+= Operator"
         else if(this->ch == '='){
             cout<<"Operator: +="<<"\n";
-            tokens.type = Op;
+            tokens.type = ADDITION_EQUAL;
             tokens.lexeme = "+=";
             tokenslist.push_back(tokens);
             return;
@@ -223,7 +223,7 @@ void Token::scanOperators(){
         // Standalone "+" Operator
         else{
             cout<<"Operator: +"<<"\n";
-            tokens.type = Op;
+            tokens.type = ADDITION;
             tokens.lexeme = "+";
             tokenslist.push_back(tokens);
             fseek(this->fd, -1, SEEK_CUR);
@@ -237,7 +237,7 @@ void Token::scanOperators(){
         // "--" Operator
         if(this->ch == '-'){
             cout<<"Operator: --"<<"\n";
-            tokens.type = Op;
+            tokens.type = DECREMENT;
             tokens.lexeme = "--";
             tokenslist.push_back(tokens);
             return;
@@ -246,7 +246,7 @@ void Token::scanOperators(){
         // "-= Operator"
         else if(this->ch == '='){
             cout<<"Operator: -="<<"\n";
-            tokens.type = Op;
+            tokens.type = SUBTRACTION_EQUAL;
             tokens.lexeme = "-=";
             tokenslist.push_back(tokens);
             return;
@@ -255,7 +255,7 @@ void Token::scanOperators(){
         // Standalone "-" Operator
         else{
             cout<<"Operator: -"<<"\n";
-            tokens.type = Op;
+            tokens.type = SUBTRACTION;
             tokens.lexeme = "-";
             tokenslist.push_back(tokens);
             fseek(this->fd, -1, SEEK_CUR);
@@ -269,7 +269,7 @@ void Token::scanOperators(){
         // "*=" Operator
         if(this->ch == '='){
             cout<<"Opeator: *="<<"\n";
-            tokens.type = Op;
+            tokens.type = MULTIPLICATION_EQUAL;
             tokens.lexeme = "*=";
             tokenslist.push_back(tokens);
             return;
@@ -278,7 +278,7 @@ void Token::scanOperators(){
         // Standalone "*" Operator
         else{
             cout<<"Operator: *"<<"\n";
-            tokens.type = Op;
+            tokens.type = MULTIPLICATION;
             tokens.lexeme = "*";
             tokenslist.push_back(tokens);
             fseek(this->fd, -1, SEEK_CUR);
@@ -292,7 +292,7 @@ void Token::scanOperators(){
         // "==" Operator
         if(this->ch == '='){
             cout<<"Opeator: =="<<"\n";
-            tokens.type = Op;
+            tokens.type = EQUAL_TO;
             tokens.lexeme = "==";
             tokenslist.push_back(tokens);
             return;
@@ -301,7 +301,7 @@ void Token::scanOperators(){
         // Standalone "=" Operator
         else{
             cout<<"Operator: ="<<"\n";
-            tokens.type = Op;
+            tokens.type = EQUAL;
             tokens.lexeme = "=";
             tokenslist.push_back(tokens);
             fseek(this->fd, -1, SEEK_CUR);
@@ -315,7 +315,7 @@ void Token::scanOperators(){
         // "^=" Operator
         if(this->ch == '='){
             cout<<"Opeator: ^="<<"\n";
-            tokens.type = Op;
+            tokens.type = BITWISE_XOR_EQUAL;
             tokens.lexeme = "^=";
             tokenslist.push_back(tokens);
             return;
@@ -324,7 +324,7 @@ void Token::scanOperators(){
         // Standalone "^" Operator
         else{
             cout<<"Operator: ^"<<"\n";
-            tokens.type = Op;
+            tokens.type = BITWISE_XOR;
             tokens.lexeme = "^";
             tokenslist.push_back(tokens);
             fseek(this->fd, -1, SEEK_CUR);
@@ -338,7 +338,7 @@ void Token::scanOperators(){
         // "%=" Operator
         if(this->ch == '='){
             cout<<"Opeator: %="<<"\n";
-            tokens.type = Op;
+            tokens.type = MODULO_EQUAL;
             tokens.lexeme = "%=";
             tokenslist.push_back(tokens);
             return;
@@ -347,7 +347,7 @@ void Token::scanOperators(){
         // Standalone "%" Operator
         else{
             cout<<"Operator: %"<<"\n";
-            tokens.type = Op;
+            tokens.type = MODULO;
             tokens.lexeme = "%";
             tokenslist.push_back(tokens);
             fseek(this->fd, -1, SEEK_CUR);
@@ -361,7 +361,7 @@ void Token::scanOperators(){
         // "&&" Operator
         if(this->ch == '&'){
             cout<<"Operator: &&"<<"\n";
-            tokens.type = Op;
+            tokens.type = AND;
             tokens.lexeme = "&&";
             tokenslist.push_back(tokens);
             return;
@@ -370,7 +370,7 @@ void Token::scanOperators(){
         // "&=" Operator
         else if(this->ch == '='){
             cout<<"Opeator: &="<<"\n";
-            tokens.type = Op;
+            tokens.type = BITWISE_AND_EQUAL;
             tokens.lexeme = "&=";
             tokenslist.push_back(tokens);
             return;
@@ -379,7 +379,7 @@ void Token::scanOperators(){
         // Standalone "&" Operator
         else{
             cout<<"Operator: &"<<"\n";
-            tokens.type = Op;
+            tokens.type = BITWISE_AND;
             tokens.lexeme = "&";
             tokenslist.push_back(tokens);
             fseek(this->fd, -1, SEEK_CUR);
@@ -393,7 +393,7 @@ void Token::scanOperators(){
         // "||" Operator
         if(this->ch == '|'){
             cout<<"Operator: ||"<<"\n";
-            tokens.type = Op;
+            tokens.type = OR;
             tokens.lexeme = "||";
             tokenslist.push_back(tokens);
             return;
@@ -402,7 +402,7 @@ void Token::scanOperators(){
         // "|=" Operator
         else if(this->ch == '='){
             cout<<"Opeator: |="<<"\n";
-            tokens.type = Op;
+            tokens.type = BITWISE_OR_EQUAL;
             tokens.lexeme = "|=";
             tokenslist.push_back(tokens);
             return;
@@ -411,7 +411,7 @@ void Token::scanOperators(){
         // Standalone "|" Operator
         else{
             cout<<"Operator: |"<<"\n";
-            tokens.type = Op;
+            tokens.type = BITWISE_OR;
             tokens.lexeme = "|";
             tokenslist.push_back(tokens);
             fseek(this->fd, -1, SEEK_CUR);
@@ -425,7 +425,7 @@ void Token::scanOperators(){
         // ">>" Operator
         if(this->ch == '>'){
             cout<<"Operator: >>"<<"\n";
-            tokens.type = Op;
+            tokens.type = RIGHT_SHIFT;
             tokens.lexeme = ">>";
             tokenslist.push_back(tokens);
             return;
@@ -434,7 +434,7 @@ void Token::scanOperators(){
         // ">=" Operator
         else if(this->ch == '='){
             cout<<"Opeator: >="<<"\n";
-            tokens.type = Op;
+            tokens.type = GREATER_THAN_OR_EQUAL;
             tokens.lexeme = ">=";
             tokenslist.push_back(tokens);
             return;
@@ -443,7 +443,7 @@ void Token::scanOperators(){
         // Standalone ">" Operator
         else{
             cout<<"Operator: >"<<"\n";
-            tokens.type = Op;
+            tokens.type = GREATER_THAN;
             tokens.lexeme = ">";
             tokenslist.push_back(tokens);
             fseek(this->fd, -1, SEEK_CUR);
@@ -457,7 +457,7 @@ void Token::scanOperators(){
         // "<<" Operator
         if(this->ch == '<'){
             cout<<"Operator: <<"<<"\n";
-            tokens.type = Op;
+            tokens.type = LEFT_SHIFT;
             tokens.lexeme = "<<";
             tokenslist.push_back(tokens);
             return;
@@ -466,7 +466,7 @@ void Token::scanOperators(){
         // "<=" Operator
         else if(this->ch == '='){
             cout<<"Opeator: <="<<"\n";
-            tokens.type = Op;
+            tokens.type = LESS_THAN_OR_EQUAL;
             tokens.lexeme = "<=";
             tokenslist.push_back(tokens);
             return;
@@ -475,7 +475,7 @@ void Token::scanOperators(){
         // Standalone "<" Operator
         else{
             cout<<"Operator: <"<<"\n";
-            tokens.type = Op;
+            tokens.type = LESS_THAN;
             tokens.lexeme = "<";
             tokenslist.push_back(tokens);
             fseek(this->fd, -1, SEEK_CUR);
@@ -489,7 +489,7 @@ void Token::scanOperators(){
         // "!=" Operator
         if(this->ch == '='){
             cout<<"Opeator: !="<<"\n";
-            tokens.type = Op;
+            tokens.type = NOT_EQUAL;
             tokens.lexeme = "!=";
             tokenslist.push_back(tokens);
             return;
@@ -498,7 +498,7 @@ void Token::scanOperators(){
         // Standalone "!" Operator
         else{
             cout<<"Operator: !"<<"\n";
-            tokens.type = Op;
+            tokens.type = NOT;
             tokens.lexeme = "!";
             tokenslist.push_back(tokens);
             fseek(this->fd, -1, SEEK_CUR);
@@ -512,7 +512,7 @@ void Token::scanOperators(){
         // "~=" Operator
         if(this->ch == '='){
             cout<<"Opeator: ~="<<"\n";
-            tokens.type = Op;
+            tokens.type = BITWISE_NOT_EQUAL;
             tokens.lexeme = "~=";
             tokenslist.push_back(tokens);
             return;
@@ -521,7 +521,7 @@ void Token::scanOperators(){
         // Standalone "~" Operator
         else{
             cout<<"Operator: ~"<<"\n";
-            tokens.type = Op;
+            tokens.type = BITWISE_NOT;
             tokens.lexeme = "~";
             tokenslist.push_back(tokens);
             fseek(this->fd, -1, SEEK_CUR);
